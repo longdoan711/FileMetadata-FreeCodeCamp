@@ -13,9 +13,9 @@ app.get('/', function(req, res) {
 });
 
 app.post('/upload', upload.single('userFile'), function(req, res, next) {
-	var err = new Error();
-	err.status = 404;
-	next(err);
+	// var err = new Error();
+	// err.status = 404;
+	// next(err);
 	
 	var fileDetails = {
 		"name": req.file.originalname,
