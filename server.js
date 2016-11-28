@@ -13,10 +13,10 @@ app.get('/', function(req, res) {
 });
 
 app.post('/upload', upload.single('userFile'), function(req, res, next) {
-	// var err = new Error();
-	// err.status = 404;
-	// next(err);
-	
+	var err = new Error();
+	err.status = 404;
+	next(err);
+
 	var fileDetails = {
 		"name": req.file.originalname,
 		"size": req.file.size + ' KB'
@@ -28,6 +28,7 @@ app.use(function(err, req, res, next) {
 	if(err.status !== 404) {
 		return next();
 	}
+	res.status(404);
 	res.send(err.message || 'Internal Server Error')
 });
 
