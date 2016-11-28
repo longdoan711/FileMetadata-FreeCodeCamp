@@ -12,24 +12,21 @@ app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/upload', function(req, res) {
+	res.end('Please choose a file');
+})
+
 app.post('/upload', upload.single('userFile'), function(req, res, next) {
-	var err = new Error();
-	err.status = 404;
-	next(err);
-
-	var fileDetails = {
-		"name": req.file.originalname,
-		"size": req.file.size + ' KB'
-	};
-	res.json(fileDetails);
-});
-
-app.use(function(err, req, res, next) {
-	if(err.status !== 404) {
-		return next();
+	if (req.file !== undefined) {
+		var fileDetails = {
+			"name": req.file.originalname,
+			"size": req.file.size + ' KB'
+		};
+		res.json(fileDetails);
+	} else {
+		res.end('Please choose a file');
 	}
-	res.status(404);
-	res.send(err.message || 'Internal Server Error')
+	
 });
 
 app.listen(port, function() {
